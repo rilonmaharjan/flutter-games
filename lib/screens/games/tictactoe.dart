@@ -18,6 +18,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
   int oScore = 0;
   int drawScore = 0;
   bool gameOver = false;
+  String resultText = '';
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
       board = List.filled(9, '');
       isXTurn = true;
       gameOver = false;
+      resultText = '';
     });
   }
 
@@ -47,6 +49,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
       oScore = 0;
       drawScore = 0;
       gameOver = false;
+      resultText = '';
     });
   }
 
@@ -62,7 +65,6 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
   }
 
   void _checkWinner() {
-    // Winning combinations
     const winningCombos = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
       [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
@@ -77,11 +79,12 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
           gameOver = true;
           if (board[combo[0]] == 'X') {
             xScore++;
-            _confettiController.play();
+            resultText = '🎉 Player X Wins!';
           } else {
             oScore++;
-            _confettiController.play();
+            resultText = '🎉 Player O Wins!';
           }
+          _confettiController.play();
         });
         return;
       }
@@ -91,6 +94,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
       setState(() {
         gameOver = true;
         drawScore++;
+        resultText = '🤝 It\'s a draw!';
       });
     }
   }
@@ -140,14 +144,16 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
                             border: Border.all(color: Colors.grey),
                           ),
                           child: Center(
-                            child: Text(
-                              board[index],
-                              style: GoogleFonts.poppins(
-                                fontSize: 48,
-                                fontWeight: FontWeight.bold,
-                                color: board[index] == 'X' ? Colors.blue : Colors.red,
-                              ),
-                            ).animate().scale(),
+                            child: board[index] != ''
+                              ? Text(
+                                  board[index],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 48,
+                                    fontWeight: FontWeight.bold,
+                                    color: board[index] == 'X' ? Colors.blue : Colors.red,
+                                  ),
+                                ).animate().fade(duration: 200.ms).scale()
+                              : const SizedBox.shrink(),
                           ),
                         ),
                       );
@@ -155,13 +161,26 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
                   ),
                 ),
                 const SizedBox(height: 20),
+                // Result message and play again
                 if (gameOver)
-                  ElevatedButton(
-                    onPressed: _newGame,
-                    child: Text(
-                      'Play Again',
-                      style: GoogleFonts.poppins(fontSize: 18),
-                    ),
+                  Column(
+                    children: [
+                      Text(
+                        resultText,
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ).animate().fade(duration: 500.ms).slide(),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: _newGame,
+                        child: Text(
+                          'Play Again',
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        ),
+                      ),
+                    ],
                   ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MemoryGame extends StatefulWidget {
@@ -161,10 +162,12 @@ class _MemoryGameState extends State<MemoryGame> {
                       ],
                     ),
                     child: Center(
-                      child: Text(
-                        cardFlips[index] || cardMatched[index] ? cards[index] : '',
-                        style: GoogleFonts.poppins(fontSize: 36),
-                      ),
+                      child: cardFlips[index] || cardMatched[index]
+                      ? Text(
+                          cards[index],
+                          style: GoogleFonts.poppins(fontSize: 36),
+                        ).animate().fade(duration: 200.ms).scale()
+                      : const SizedBox.shrink(),
                     ),
                   ),
                 );
