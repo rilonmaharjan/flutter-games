@@ -274,7 +274,7 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.red.withOpacity(0.7),
+                        color: Colors.red.withValues(alpha:0.7),
                         blurRadius: 10,
                         spreadRadius: 2,
                       )
@@ -299,7 +299,7 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.yellow.withOpacity(0.7),
+                        color: Colors.yellow.withValues(alpha:0.7),
                         blurRadius: 10,
                         spreadRadius: 2,
                       )

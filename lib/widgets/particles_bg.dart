@@ -82,7 +82,7 @@ class Star {
 
   void draw(Canvas canvas, Size size) {
     final brightness = 0.6 + 0.4 * sin(twinklePhase);
-    final color = Colors.white.withOpacity(brightness);
+    final color = Colors.white.withValues(alpha: brightness);
     paint.color = color;
     canvas.drawCircle(Offset(x * size.width, y * size.height), radius, paint);
   }
