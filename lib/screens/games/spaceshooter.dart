@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:minigames/widgets/particles_bg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SpaceShooterGame extends StatefulWidget {
@@ -193,43 +194,48 @@ class _SpaceShooterGameState extends State<SpaceShooterGame> {
           ),
         ],
       ),
-      body: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          setState(() {
-            // Update shipX between -1 and 1 based on drag
-            shipX += details.delta.dx / (MediaQuery.of(context).size.width / 2);
-            if (shipX > 1) shipX = 1;
-            if (shipX < -1) shipX = -1;
-          });
-        },
-        child: Stack(
-          children: [
-            // Ship
-            Align(
-              alignment: Alignment(shipX, 0.9),
-              child: Transform.rotate(
-                angle: -0.79, // approx -90 degrees (π/2 radians)
-                child: Text('🚀', style: TextStyle(fontSize: 60)),
-              )
+      body: Stack(
+        children: [
+          ParticlesBackground(),
+          GestureDetector(
+            onHorizontalDragUpdate: (details) {
+              setState(() {
+                // Update shipX between -1 and 1 based on drag
+                shipX += details.delta.dx / (MediaQuery.of(context).size.width / 2);
+                if (shipX > 1) shipX = 1;
+                if (shipX < -1) shipX = -1;
+              });
+            },
+            child: Stack(
+              children: [
+                // Ship
+                Align(
+                  alignment: Alignment(shipX, 0.9),
+                  child: Transform.rotate(
+                    angle: -0.79, // approx -90 degrees (π/2 radians)
+                    child: Text('🚀', style: TextStyle(fontSize: 60)),
+                  )
+                ),
+          
+                // Bullets
+                ...bullets.map((b) {
+                  return Align(
+                    alignment: Alignment(b.x, b.y),
+                    child: Text("💥", style: TextStyle(fontSize: 12),)
+                  );
+                }),
+          
+                // Enemies
+                ...enemies.map((e) {
+                  return Align(
+                    alignment: Alignment(e.x, e.y),
+                    child: Text("🧟", style: TextStyle(fontSize: 26),)
+                  );
+                }),
+              ],
             ),
-
-            // Bullets
-            ...bullets.map((b) {
-              return Align(
-                alignment: Alignment(b.x, b.y),
-                child: Text("💥", style: TextStyle(fontSize: 12),)
-              );
-            }),
-
-            // Enemies
-            ...enemies.map((e) {
-              return Align(
-                alignment: Alignment(e.x, e.y),
-                child: Text("🧟", style: TextStyle(fontSize: 26),)
-              );
-            }),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
