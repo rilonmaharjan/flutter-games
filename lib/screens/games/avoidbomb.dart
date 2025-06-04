@@ -242,7 +242,15 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
             // Player
             Align(
               alignment: Alignment(playerX, 0.9),
-              child: Text("🧍", style: TextStyle(fontSize: 55),)
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Icon(Icons.face, color: Colors.white),
+              ),
             ),
             
             // Bombs
@@ -252,7 +260,21 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
                     MediaQuery.of(context).size.height / 2,
                 left: bomb.dx * MediaQuery.of(context).size.width / 2 +
                     MediaQuery.of(context).size.width / 2 - 16,
-                child: Text("💥", style: TextStyle(fontSize: 35),)
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.red.withOpacity(0.7),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      )
+                    ],
+                  ),
+                ),
               );
             }),
             
@@ -263,7 +285,21 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
                     MediaQuery.of(context).size.height / 2,
                 left: coin.dx * MediaQuery.of(context).size.width / 2 +
                     MediaQuery.of(context).size.width / 2 - 12,
-                child: Text("💰", style: TextStyle(fontSize: 25),)
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: Colors.yellow,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.yellow.withOpacity(0.7),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      )
+                    ],
+                  ),
+                ),
               );
             }),
             
