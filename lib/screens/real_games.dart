@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:minigames/screens/games/avoidbomb.dart';
 import 'package:minigames/screens/games/dinorun.dart';
 import 'package:minigames/screens/games/memory.dart';
 import 'package:minigames/screens/games/quiz.dart';
@@ -76,6 +77,12 @@ class RealGames extends StatelessWidget {
             icon: Text('🦖', style: TextStyle(fontSize: 45)),
             color: Colors.indigo,
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const DinoRunGame())),
+          ),
+          GameCard(
+            title: 'Avoid Bomb',
+            icon: Text('💣', style: TextStyle(fontSize: 45)),
+            color: Colors.indigo,
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AvoidTheBombGame())),
           ),
         ],
       ),
