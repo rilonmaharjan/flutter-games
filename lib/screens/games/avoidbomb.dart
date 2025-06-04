@@ -29,6 +29,7 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
   int bombCount = 5;
   int coinCount = 2;
   bool isPaused = false;
+  bool isHit = false;
 
   @override
   void initState() {
@@ -99,15 +100,19 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
   void _checkCollisions() {
     // Player position and size
     final playerPos = playerX;
-    final playerWidth = 0.15;
+    final playerWidth = 0.14;
     
     // Check bomb collisions
     for (var bomb in bombs) {
-      if (bomb.dy > 0.85 && bomb.dy < 1.0) {
+      if (bomb.dy > 0.87 && bomb.dy < 0.99) {
         double distance = (bomb.dx - playerPos).abs();
         if (distance < playerWidth) {
           setState(() {
+            isHit = true;
             lives--;
+            Future.delayed(Duration(milliseconds: 500), () {
+              setState(() => isHit = false);
+            });
             if (lives <= 0) {
               gameOver = true;
               _timer.cancel();
@@ -124,7 +129,7 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
     
     // Check coin collections
     for (var coin in coins) {
-      if (coin.dy > 0.85 && coin.dy < 1.0) {
+      if (coin.dy > 0.87 && coin.dy < 0.99) {
         double distance = (coin.dx - playerPos).abs();
         if (distance < playerWidth) {
           setState(() {
@@ -242,11 +247,12 @@ class _AvoidTheBombGameState extends State<AvoidTheBombGame> {
             // Player
             Align(
               alignment: Alignment(playerX, 0.9),
-              child: Container(
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 200),
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: isHit ? Colors.red : Colors.blue,  // Flash red when hit
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Icon(Icons.face, color: Colors.white),
